@@ -1,0 +1,54 @@
+.nav-pills .nav-link.active {
+  color: #60c5ef
+}
+
+.nav-pills .nav-link {
+  color: #fff;
+}
+
+.nav-pills .nav-link.active:hover {
+
+  transform: scale3d(1.2);
+  translate: all .2;
+
+}
+
+.nav-pills .nav-link:hover {
+  scale: 1.2;
+}
+
+.card {
+  background-color: #212121;
+  border: none;
+}
+
+.style-a{
+  color: black;
+}
+
+.style-a:hover{
+  text-decoration: none;
+}
+
+.style-a::after {
+  content: "";
+  width: 0;
+  display: block;
+  height: 2px;
+  background-color: red;
+  transition: all 0.3s;
+}
+
+li.active .style-a::after{
+  width: 70%;
+}
+
+li:hover .style-a::after{
+  width: 70%;
+}
+
+
+.nav-pills .nav-link.active {
+  color: black;
+  background-color: unset;
+}
