@@ -1,17 +1,23 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Card } from 'antd';
+import { Link } from 'react-router-dom';
 
-export default function Movieitem(movie) {
+const { Meta } = Card;
+
+export default function Movieitem(props) {
+    const { movie } = props
+
     return (
-        <div className='col-md-3'>
-            <div className="card">
-                <img className="card-img-top" src={movie.hinhAnh}/>
-                <div className="card-body">
-                    <h4 className="card-title">{movie.tenPhim}</h4>
-                    {/* Không có active khi chọn */}
-                    <Link to={`/detail-movie/${movie.maPhim}`} className='btn btn-success'>Detail</Link>
-                </div>
-            </div>
+        <div className='col-md-3 col-sm-3 col-xs-6'>
+            <Link to={`/info-movie/${movie.maPhim}`}>
+                <Card
+                    hoverable
+                    style={{ width: 240 }}
+                    cover={<img alt="example" src={movie.hinhAnh} />}
+                >
+                    <Meta title={movie.tenPhim} />
+                </Card>
+            </Link>
         </div>
     )
 }

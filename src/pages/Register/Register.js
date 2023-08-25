@@ -1,122 +1,209 @@
 import React from 'react'
-import { useFormik } from "formik";
-// import DatePicker from "react-datepicker";
+import { useState } from 'react';
+import {
+  Button,
+  Checkbox,
+  Form,
+  Input,
+  Select,
+} from 'antd';
 
-import * as Yup from "yup";
-import { NavLink } from 'react-router-dom';
-import"../Register/Register.css"
-import "react-datepicker/dist/react-datepicker.css";
+import { actFetchRegister } from './duck/actions';
+import { useDispatch } from 'react-redux';
 
+const { Option } = Select;;
 
-export default function Register(props) {
- 
-  const Formik = useFormik({
-    initialValues:{
-      username:"",
-      password:"",
-      email:"",
-      phoneNumber:"",
-      date:"",
-      address:"",
+const formItemLayout = {
+  labelCol: {
+    xs: {
+      span: 24,
     },
-    validationSchema:Yup.object({
-      username: Yup.string()
-        .required("Tên người dùng không để trống")
-        .min(6, "Tối thiểu 6 ký tự")
-        .max(15, "Tối đa 15 ký tự"),
-      password: Yup.string()
-        .required("Mật khẩu không để trống")
-        .min(6, "Mật Khẩu Tối thiểu 6 ký tự")
-        .max(12, "Mật khẩu Tối đa 12 ký tự"),
-      email: Yup.string()
-        .required("Email không để trống")
-        .email("Email không đúng format"),
-      phoneNumber:Yup.string().required("Số điện thoại không được bỏ trống !"),
-      date:Yup.string().required("không được để trống trường thông tin !"),
-      address:Yup.string().required("Địa chỉ không được bỏ trống!"),
-    }),
-    onSubmit: (values) => {
-    
-      console.log("value", values);
+    sm: {
+      span: 8,
     },
-  
+  },
+  wrapperCol: {
+    xs: {
+      span: 24,
+    },
+    sm: {
+      span: 16,
+    },
+  },
+};
+const tailFormItemLayout = {
+  wrapperCol: {
+    xs: {
+      span: 24,
+      offset: 0,
+    },
+    sm: {
+      span: 16,
+      offset: 8,
+    },
+  },
+};
+
+export default function Register() {
+  const [form] = Form.useForm();
+  const prefixSelector = (
+    <Form.Item name="prefix" noStyle>
+      <Select
+        style={{
+          width: 70,
+        }}
+      >
+        <Option value="83">+83</Option>
+        <Option value="84">+84</Option>
+        <Option value="85">+85</Option>
+      </Select>
+    </Form.Item>
+  );
+  const [autoCompleteResult, setAutoCompleteResult] = useState([]);
+  const onWebsiteChange = (value) => {
+    if (!value) {
+      setAutoCompleteResult([]);
+    } else {
+      setAutoCompleteResult(['.com', '.org', '.net'].map((domain) => `${value}${domain}`));
+    }
+  };
+
+  const dispatch = useDispatch();
+  const [state, setState] = useState({
+    taiKhoan: "",
+    matKhau: "",
+    email: "",
+    soDt: "",
+    maNhom: "GP01",
+    hoTen: "",
   })
+
+  const handlOnChange = (event) => {
+    const { name, value } = event.target;
+    setState({
+      ...state,
+      [name]: value,
+    });
+  }
+
+  const handlAddUser = (e) => {
+    e.preventDefault();
+    dispatch(actFetchRegister(state));
+  }
+
+
   return (
-    <form 
-    onSubmit={(e) => { 
-      e.preventDefault();
-      Formik.handleSubmit(e);
-     }}
-     className="login-left"
-    >
-      <div className='top-link'>
-        <NavLink to="/login" className="top-go" style={{textDecoration:"none"}}>
-        <i className="fa-solid fa-circle-arrow-left" style={{display:"block"}}></i>
-         
-        </NavLink>
-      </div>
-      <div className='contact'>
-        <div>
-          <h3 className='sign-up'>SIGN UP</h3>
-          <input name='username' 
-            value={Formik.values.username}
-            onChange={Formik.handleChange}
-            type="text"
-            placeholder="USERNAME"
-            />
-            {Formik.touched.username && Formik.errors.username ? (
-                <div className="text-danger">{Formik.errors.username}</div>
-              ) : null}
-           <input name='password'
-           value={Formik.values.password}
-           onChange={Formik.handleChange}
-           type="password"
-           placeholder='PASSWORD'
-           />
-           {Formik.touched.password && Formik.errors.password ? (
-                <div className="text-danger">{Formik.errors.password}</div>
-              ) : null}
-           <input name='email'
-           value={Formik.values.email}
-           onChange={Formik.handleChange}
-           type="email"
-           placeholder='EMAIL'
-           />
-            {Formik.touched.email&& Formik.errors.email ? (
-                <div className="text-danger">{Formik.errors.email}</div>
-              ) : null}
-           <input name='phoneNumber'
-           value={Formik.values.phoneNumber}
-           onChange={Formik.handleChange}
-           type="text"
-           placeholder='PHONENUMBER'
-           />
-           {Formik.touched.phoneNumber&& Formik.errors.phoneNumber ? (
-                <div className="text-danger">{Formik.errors.phoneNumber}</div>
-              ) : null}
-           <input name='address'
-           value={Formik.values.address}
-           onChange={Formik.handleChange}
-           type="text"
-           placeholder='ADDRESS'
-           />
-            {Formik.touched.address&& Formik.errors.address ? (
-                <div className="text-danger">{Formik.errors.address}</div>
-              ) : null}
-           <input
-          name="date"
-          type="date"
-          onChange={Formik.handleChange}
-          value={Formik.values.date}
-        />
-          {Formik.touched.date&& Formik.errors.date ? (
-                <div className="text-danger">{Formik.errors.date}</div>
-              ) : null}
-          
-           
-          <button className="btn_submit" type='submit' >SIGN UP</button>
-        </div>
-      </div>
-    </form>
+    <div className='container mt-5 col-5'>
+      <Form onSubmitCapture={handlAddUser}
+        {...formItemLayout}
+        form={form}
+        name="register"
+        initialValues={{
+          residence: [],
+          prefix: '',
+        }}
+        style={{
+          maxWidth: 600,
+        }}
+        scrollToFirstError
+      >
+
+        <Form.Item
+          name="nickname"
+          label="Tên đăng nhập"
+          rules={[
+            {
+              required: true,
+              message: 'Vui lòng nhập họ và tên',
+              whitespace: true,
+            },
+          ]}
+          onChange={handlOnChange}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name="email"
+          label="E-mail"
+          rules={[
+            {
+              type: 'email',
+              message: 'The input is not valid E-mail!',
+            },
+            {
+              required: true,
+              message: 'Please input your E-mail!',
+            },
+          ]}
+          onChange={handlOnChange}
+
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          name="password"
+          label="Nhập mật khẩu"
+          rules={[
+            {
+              required: true,
+              message: 'Vui lòng nhập mật khẩu',
+            },
+          ]}
+          hasFeedback
+          onChange={handlOnChange}
+        >
+          <Input.Password />
+        </Form.Item>
+
+        <Form.Item
+          name="confirm"
+          label="Nhập lại mật khẩu"
+          dependencies={['password']}
+          hasFeedback
+          rules={[
+            {
+              required: true,
+              message: 'Vui lòng nhập lại mật khẩu',
+            },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                if (!value || getFieldValue('password') === value) {
+                  return Promise.resolve();
+                }
+                return Promise.reject(new Error('The new password that you entered do not match!'));
+              },
+            }),
+          ]}
+          onChange={handlOnChange}
+        >
+          <Input.Password />
+        </Form.Item>
+
+        <Form.Item
+          name="phone"
+          label="Số điện thoại"
+          rules={[
+            {
+              required: true,
+              message: 'Vui lòng nhập số điện thoại',
+            },
+          ]}
+        >
+          <Input
+            addonBefore={prefixSelector}
+            style={{
+              width: '100%',
+            }}
+            onChange={handlOnChange}
+          />
+        </Form.Item>
+        <Form.Item {...tailFormItemLayout}>
+          <Button type="primary" htmlType="submit">
+            Register
+          </Button>
+        </Form.Item>
+      </Form>
+    </div>
   )
 }

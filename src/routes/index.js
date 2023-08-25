@@ -7,8 +7,22 @@ const routes = [
         element: lazy(() => import("./../templates/HomeTemplate/HomeTemplate")),
         nested: [
             { path: "", element: lazy(() => import("./../pages/Home/Home")) },
+            { path: "login", element: lazy(() => import("./../pages/Login/Login")) },
+            { path: "dang-ky", element: lazy(() => import("./../pages/Register/Register")) },
+            { path: "info-movie/:id", element: lazy(() => import("./../pages/Infofilm/index")) },
+            { path: "check-out", element: lazy(() => import("./../pages/Checkout/Checkout"))},
         ],
     },
+
+    {
+        path: "admin",
+        element: lazy(() => import("./../templates/AdminTemplate/AdminTemplate")),
+        nested: [
+            { path: "add-user", element: lazy(() => import("./../Adminpages/AddUser/index"))},
+            { path: "film", element: lazy(() => import("./../Adminpages/Film/index"))},
+            { path: "home", element: lazy(() => import("./../Adminpages/Home/index"))},
+        ]
+    }
 ]
 
 const renderRoutes = () => {

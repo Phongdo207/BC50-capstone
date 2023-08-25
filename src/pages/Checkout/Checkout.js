@@ -8,7 +8,6 @@ import {
 } from "@ant-design/icons";
 
 
-import { history } from "../../App"
 import "../Checkout/Checkout.css"
 import _ from "lodash";
 const { TabPane } = Tabs;
@@ -24,9 +23,6 @@ export default function (props) {
         </NavLink>
       </button>
       <button onClick={() => {
-        console.log('đăng xuat')
-
-        history.push('/home')
         window.location.reload();
       }} className="text-success">Đăng Xuất</button>
     </Fragment>
@@ -38,8 +34,6 @@ export default function (props) {
         tabBarExtraContent={operations}
         className="px-5"
         defaultActiveKey="1"
-
-
       >
         <TabPane
           tab={
@@ -81,7 +75,9 @@ function Checkout(props) {
       <div className="container">
         <div className="row">
           {/* render ghe */}
-          <div className="col-8">
+          <div className="col-8" style={{
+              right:"10%",
+            }}>
             {/* màn hình  */}
             <div className="screen mt-3">
               <img src="../img/screen.png" />
@@ -309,7 +305,7 @@ function Checkout(props) {
           {/* đặt vé tính tiền */}
           <div
             style={{
-              left: "1000px",
+              right:"10%",
               position: "absolute",
               top: "7px",
               width: "26%",

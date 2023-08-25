@@ -7,6 +7,10 @@ import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
 import { actFetchListMovie } from "./Listmovie/duck/actions";
 import Movieitem from "./Listmovie/MovieItem";
+import SkeletonCmp from "../../Components/Blog/SkeletonCmp";
+import ShowTimeMovie from "./../Infofilm/Showtime/index"
+
+const arrSkeleton = [1, 2, 3];
 
 export default function Home() {
   const data = useSelector((state) => state.listMovieReducer.data);
@@ -17,9 +21,17 @@ export default function Home() {
     dispatch(actFetchListMovie())
   }, [])
 
-  const renderListMovie = () => {
-    if(loading) return <div>Loading...</div>
-    return data?.map((movie)=> <Movieitem key = {movie.maPhim} movie = {movie} />)
+
+  const renderListMovieSapChieu = () => {
+    if (loading) return arrSkeleton.map((item) => <SkeletonCmp key={item} />)
+
+    return data?.map((movie) => movie.sapChieu === false ? <Movieitem key={movie.maPhim} movie={movie} /> : true)
+  }
+
+  const renderListMovieDangChieu = () => {
+    if (loading) return arrSkeleton.map((item) => <SkeletonCmp key={item} />)
+
+    return data?.map((movie) => movie.sapChieu === true ? <Movieitem key={movie.maPhim} movie={movie} /> : false)
   }
 
   return (
@@ -71,8 +83,16 @@ export default function Home() {
               role="tabpanel"
               aria-labelledby="pills-home-tab"
             >
-              {/* <Movieitem /> */}
-              {renderListMovie()}
+              <hr />
+              <div className='col-md-12'>
+                <div className='tab-content'>
+                  <div className='tab-pane active'>
+                    <div className='row'>
+                      {renderListMovieSapChieu()}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
             <div
               className="tab-pane fade"
@@ -80,10 +100,20 @@ export default function Home() {
               role="tabpanel"
               aria-labelledby="pills-profile-tab"
             >
-              {/* <MovieItem /> */}
+              <div className='col-md-12'>
+                <div className='tab-content'>
+                  <div className='tab-pane active'>
+                    <div className='row'>
+                      {renderListMovieDangChieu()}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+      </div>
+      <div className="container">
       </div>
       <Blog />
     </div>

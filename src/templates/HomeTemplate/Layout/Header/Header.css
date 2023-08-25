@@ -1,14 +1,15 @@
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   /* color: white; */
 }
 
-a{
+a {
   color: white;
 }
 
-a:hover{
+a:hover {
   color: red;
+  text-decoration: none !important;
 }

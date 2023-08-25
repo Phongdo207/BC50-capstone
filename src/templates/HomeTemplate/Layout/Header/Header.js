@@ -1,29 +1,38 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import '../Header/Header.css'
-import _ from 'lodash'
 import { Fragment } from "react"
+import { Link } from 'react-router-dom'
 
 export default function Header(props) {
 
   const renderLogin = () => {
-    if (_.isEmpty()) {
+    if (!localStorage.getItem("UserAdmin")) {
       return <Fragment>
         <button
           className="btn btn-outline-danger px-3 "
           type="submit"
         >
           <NavLink style={{ color: 'white' }} to="/login">
-            Sign in
+            <span>Đăng nhập</span>
           </NavLink>
 
         </button>
         <button className="btn btn-outline-success px-3 mx-3" type="submit">
-          <NavLink style={{ color: 'white' }} to="/register">
-            Sign up
+          <NavLink style={{ color: 'white' }} to="/dang-ky">
+            <span>Đăng ký</span>
           </NavLink>
         </button>
       </Fragment>
+    } else {
+      return (
+        <button className="btn btn-outline-success px-3 mx-3" type="submit">
+          <NavLink style={{ color: 'white' }} to="/admin/home">
+            <span>Admin</span>
+          </NavLink>
+        </button>
+      )
+
     }
   }
   return (
@@ -36,24 +45,21 @@ export default function Header(props) {
       height: 60,
       backgroundColor: "rgba(40,40,40,0.6)",
     }}>
-      <NavLink className="navbar-brand mx-4" to="/">
+      <Link className="navbar-brand mx-4" to="/">
         <img src="./img/logo-full.png" alt="" style={{ width: "50%" }} />
-      </NavLink>
+      </Link>
       <ul className="nav justify-content-center pb-2" style={{ marginRight: "88px" }}>
         <li className="nav-item active">
-          <NavLink className={({isActive}) => isActive ? "my-active nav-link" : "nav-link"} to="/">Trang chủ</NavLink>
+          <NavLink className={({ isActive }) => isActive ? "my-active nav-link" : "nav-link"} to="/">Trang chủ</NavLink>
         </li>
         <li className="nav-item">
-          <NavLink className={({isActive}) => isActive ? "my-active nav-link" : "nav-link"} to="/contact">Theater</NavLink>
+          <NavLink className={({ isActive }) => isActive ? "my-active nav-link" : "nav-link"} to="/contact">Phim</NavLink>
         </li>
         <li className="nav-item">
-          <NavLink className={({isActive}) => isActive ? "my-active nav-link" : "nav-link"} to="/film-hot">Film Hot</NavLink>
+          <NavLink className={({ isActive }) => isActive ? "my-active nav-link" : "nav-link"} to="/event">Khuyến mãi</NavLink>
         </li>
         <li className="nav-item">
-          <NavLink className={({isActive}) => isActive ? "my-active nav-link" : "nav-link"} to="/event">Event</NavLink>
-        </li>
-        <li className="nav-item">
-          <NavLink className={({isActive}) => isActive ? "my-active nav-link" : "nav-link"} to="/support">Support</NavLink>
+          <NavLink className={({ isActive }) => isActive ? "my-active nav-link" : "nav-link"} to="/support">Hỗ trợ</NavLink>
         </li>
       </ul>
       <div className='d-flex pb-2'	>

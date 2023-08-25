@@ -1,0 +1,24 @@
+h3::after {
+    margin-top: 5px;
+    content: "";
+    width: 10%;
+    display: block;
+    height: 3px;
+    background-color: red;
+}
+
+:where(.css-dev-only-do-not-override-17a39f8).ant-tabs .ant-tabs-tab-btn{
+    font-size: 1.5rem;
+}
+
+:where(.css-dev-only-do-not-override-17a39f8).ant-tabs .ant-tabs-content-holder{
+    min-width: unset;
+}
+
+.style-hover{
+    color: black;
+}
+
+.style-hover:hover{
+    color: red !important;
+}
